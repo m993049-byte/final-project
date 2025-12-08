@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using final_project.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddDbContext<final_projectContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("final_projectContext") ?? throw new InvalidOperationException("Connection string 'final_projectContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("final_projectContext")
+        ?? throw new InvalidOperationException("Connection string 'final_projectContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

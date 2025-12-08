@@ -48,13 +48,6 @@ namespace final_project.Controllers
         {
             return View();
         }
-       
-        //login view
-        public IActionResult Login()
-        {
-            return View();
-        }
-
 
         // POST: usersaccounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
