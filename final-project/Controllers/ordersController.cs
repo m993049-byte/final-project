@@ -19,6 +19,15 @@ namespace final_project.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> CatalogueBuy()
+        {
+            return View(await _context.orders.ToListAsync());
+        }
+        public async Task<IActionResult> BookBuyDetail(int? id)
+        {
+            var book = await _context.orders.FindAsync(id);
+            return View(book);
+        }
         // GET: orders
         public async Task<IActionResult> Index()
         {
