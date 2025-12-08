@@ -10,5 +10,6 @@
         public int category { get; set; }        
         public int quantity { get; set; }        
         public string imgfile { get; set; }
+        public string title { get; set; }
     }
 }
