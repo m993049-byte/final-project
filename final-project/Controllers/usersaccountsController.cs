@@ -91,6 +91,7 @@ namespace final_project.Controllers
 
 
             var role = HttpContext.Session.GetString("Role");
+            var name = HttpContext.Session.GetString("Name");
 
             if (role != "admin")
             {

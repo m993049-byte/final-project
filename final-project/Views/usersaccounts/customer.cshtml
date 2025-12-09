@@ -1,1 +1,5 @@
-﻿<h1>hello customer</h1>
+﻿@{
+    var username = Context.Session.GetString("Name");
+}
+
+<h2>Welcome Customer @username!</h2>
