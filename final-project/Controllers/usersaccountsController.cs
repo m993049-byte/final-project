@@ -103,9 +103,16 @@ namespace final_project.Controllers
 
         //customer page 
         public IActionResult customer() {
+            var role = HttpContext.Session.GetString("Role");
 
+            if (role == null)
+            {
+
+                return RedirectToAction("login", "usersaccounts");
+            }
             return View();
         }
+
         // POST: usersaccounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
