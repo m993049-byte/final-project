@@ -83,11 +83,8 @@ namespace final_project.Controllers
                 return View();
             }
         }
-
-
-
-        // admin page
-        public IActionResult admin() {
+        public IActionResult admin()
+        {
 
 
             var role = HttpContext.Session.GetString("Role");
@@ -100,9 +97,9 @@ namespace final_project.Controllers
 
             return View();
         }
-
         //customer page 
-        public IActionResult customer() {
+        public IActionResult customer()
+        {
             var role = HttpContext.Session.GetString("Role");
 
             if (role == null)
@@ -112,6 +109,11 @@ namespace final_project.Controllers
             }
             return View();
         }
+
+
+
+
+
 
         // POST: usersaccounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
