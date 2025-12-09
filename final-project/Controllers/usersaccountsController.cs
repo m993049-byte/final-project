@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using final_project.Data;
+using final_project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using final_project.Data;
-using final_project.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace final_project.Controllers
 {
@@ -219,5 +221,45 @@ namespace final_project.Controllers
         {
             return _context.usersaccounts.Any(e => e.Id == id);
         }
+    
+        public IActionResult Email()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SendEmail(string email, string message)
+        {
+            try
+            {
+               
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("your-email@gmail.com", "your-email-password"),
+                    EnableSsl = true
+                };
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("your-email@gmail.com"),
+                    Subject = "Nn ",
+                    Body = message,
+                    IsBodyHtml = true
+                };
+
+                mailMessage.To.Add(email);
+
+                
+                smtpClient.Send(mailMessage);
+
+                return Content("DONE!");
+            }
+            catch (Exception ex)
+            {
+                return Content($"Error {ex.Message}");
+            }
+        }
     }
 }
+

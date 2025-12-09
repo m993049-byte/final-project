@@ -1,0 +1,65 @@
+﻿@* @model final_project.Models.items
+
+<!-- Modal -->
+<div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="insertModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="insertModalLabel">New Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label asp-for="name"></label>
+                        <input asp-for="name" class="form-control" />
+                        <span asp-validation-for="name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="description"></label>
+                        <textarea asp-for="description" class="form-control"></textarea>
+                        <span asp-validation-for="description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="price"></label>
+                        <input asp-for="price" class="form-control" />
+                        <span asp-validation-for="price" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="discount"></label>
+                        <input asp-for="discount" class="form-control" />
+                        <span asp-validation-for="discount" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="category"></label>
+                        <input asp-for="category" class="form-control" />
+                        <span asp-validation-for="category" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="quantity"></label>
+                        <input asp-for="quantity" class="form-control" />
+                        <span asp-validation-for="quantity" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="imgfile"></label>
+                        <input asp-for="imgfile" type="file" class="form-control" />
+                        <span asp-validation-for="imgfile" class="text-danger"></span>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Item</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> *@

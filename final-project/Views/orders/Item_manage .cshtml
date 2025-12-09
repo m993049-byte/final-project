@@ -1,5 +1,5 @@
 ﻿@* 
-@model IEnumerable<lab4.Models.book>
+@model IEnumerable<final-project.Models.items>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,17 +10,17 @@
 <p>
     <!-- Trigger the modal with a button -->
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#insertModal"> New Item</button>
-    @await Html.PartialAsync("insertbook", new book()) 
+    @await Html.PartialAsync("insertitems", new items()) 
 </p>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.title)
+                @Html.DisplayNameFor(model => model.name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.info)
+                @Html.DisplayNameFor(model => model.description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.price)
@@ -28,14 +28,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.discount)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.pubdate)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.bookquantity)
+                @Html.DisplayNameFor(model => model.quantity)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.imgfile)
@@ -44,36 +42,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var items in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.title)
+                @Html.DisplayFor(modelItem => items.name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.info)
+                @Html.DisplayFor(modelItem => items.description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.price)
+                @Html.DisplayFor(modelItem => items.price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.discount)
+                @Html.DisplayFor(modelItem => items.discount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.pubdate)
+                @Html.DisplayFor(modelItem => items.pubdate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.category)
+                @Html.DisplayFor(modelItem => items.category)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.bookquantity)
+                @Html.DisplayFor(modelItem => items.quantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.imgfile)
+                @Html.DisplayFor(modelItem => items.imgfile)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@items.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@items.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@items.Id">Delete</a>
             </td>
         </tr>
 }
