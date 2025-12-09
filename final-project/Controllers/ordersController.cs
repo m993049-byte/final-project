@@ -23,7 +23,7 @@ namespace final_project.Controllers
         {
             return View(await _context.orders.ToListAsync());
         }
-        public async Task<IActionResult> BookBuyDetail(int? id)
+        public async Task<IActionResult> ItemBuyDetail(int? id)
         {
             var book = await _context.orders.FindAsync(id);
             return View(book);
