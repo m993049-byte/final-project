@@ -59,7 +59,7 @@ namespace final_project.Controllers
         public async Task<IActionResult> login(string na, string pa)
         {
             var ur = await _context.usersaccounts.FromSqlRaw("SELECT * FROM usersaccounts where name ='" + na + "' and  pass ='" + pa + "' ").FirstOrDefaultAsync();
-
+            
             if (ur != null)
             {
 

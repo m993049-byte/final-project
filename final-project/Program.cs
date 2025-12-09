@@ -4,11 +4,14 @@ using final_project.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddDbContext<final_projectContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("final_projectContext")
         ?? throw new InvalidOperationException("Connection string 'final_projectContext' not found.")));
 
+
 builder.Services.AddControllersWithViews();
+
 
 builder.Services.AddSession(options =>
 {
@@ -19,7 +22,7 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-// Pipeline
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -30,6 +33,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
 
 app.UseSession();
 
