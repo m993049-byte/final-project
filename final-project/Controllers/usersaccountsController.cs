@@ -54,7 +54,57 @@ namespace final_project.Controllers
         {
             return View();
         }
+        //login post action
+        [HttpPost, ActionName("login")]
+        public async Task<IActionResult> login(string na, string pa)
+        {
+            var ur = await _context.usersaccounts.FromSqlRaw("SELECT * FROM usersaccounts where name ='" + na + "' and  pass ='" + pa + "' ").FirstOrDefaultAsync();
 
+            if (ur != null)
+            {
+
+                int id = ur.Id;
+                string na1 = ur.name;
+                string ro = ur.role;
+                HttpContext.Session.SetString("userid", Convert.ToString(id));
+                HttpContext.Session.SetString("Name", na1);
+                HttpContext.Session.SetString("Role", ro);
+
+                if (ro == "customer")
+                    return RedirectToAction("customer");
+                else if (ro == "admin")
+                    return RedirectToAction("admin");
+                else
+                    return View();
+            }
+            else
+            {
+                ViewData["Message"] = "wrong user name password";
+                return View();
+            }
+        }
+
+
+
+        // admin page
+        public IActionResult admin() {
+
+
+            var role = HttpContext.Session.GetString("Role");
+
+            if (role != "admin")
+            {
+                return RedirectToAction("login", "usersaccounts");
+            }
+
+            return View();
+        }
+
+        //customer page 
+        public IActionResult customer() {
+
+            return View();
+        }
         // POST: usersaccounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

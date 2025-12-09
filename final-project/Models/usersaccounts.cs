@@ -6,10 +6,9 @@ namespace final_project.Models
     {
         public int Id { get; set; }
 
-        [Column("username")]
         public string name { get; set; }
 
-        [Column("userpass")]
+
         public string pass { get; set; }
 
         public string role { get; set; }
