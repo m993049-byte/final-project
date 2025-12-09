@@ -14,7 +14,7 @@ namespace final_project.Data
         {
         }
 
-        public DbSet<final_project.Models.orders> items { get; set; } = default!;
+        public DbSet<final_project.Models.items> items { get; set; } = default!;
         public DbSet<final_project.Models.usersaccounts> usersaccounts { get; set; } = default!;
     }
 }
