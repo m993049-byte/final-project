@@ -14,6 +14,7 @@ namespace final_project.Controllers
     {
         private readonly final_projectContext _context;
 
+        List<BuyItem> Bitm = new List<BuyItem>();
         public ordersController(final_projectContext context)
         {
             _context = context;
@@ -21,17 +22,37 @@ namespace final_project.Controllers
 
         public async Task<IActionResult> CatalogueBuy()
         {
-            return View(await _context.orders.ToListAsync());
+            return View(await _context.items.ToListAsync());
         }
         public async Task<IActionResult> ItemBuyDetail(int? id)
         {
-            var book = await _context.orders.FindAsync(id);
-            return View(book);
+            var item = await _context.items.FindAsync(id);
+            return View(item);
+        }
+        [HttpPost]
+        public async Task<IActionResult> cartadd(int bookId, int quantity)
+        {
+            await HttpContext.Session.LoadAsync();
+            var sessionString = HttpContext.Session.GetString("Cart"); if (sessionString is not null)
+            {
+                Bitm = JsonSerializer.Deserialize<List<items>>(sessionString);
+            }
+            var book = await _context.items.FromSqlRaw("select * from items	where Id= '" + bookId
++ "'	").FirstOrDefaultAsync();
+            Bbks.Add(new buybook
+            {
+                Name = items.name,
+                Price = items.price,
+                quant = quantity
+            });
+
+            HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(Bbks));
+            return RedirectToAction("CartBuy");
         }
         // GET: orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.orders.ToListAsync());
+            return View(await _context.items.ToListAsync());
         }
 
         // GET: orders/Details/5
@@ -42,7 +63,7 @@ namespace final_project.Controllers
                 return NotFound();
             }
 
-            var orders = await _context.orders
+            var orders = await _context.items
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (orders == null)
             {
@@ -82,7 +103,7 @@ namespace final_project.Controllers
                 return NotFound();
             }
 
-            var orders = await _context.orders.FindAsync(id);
+            var orders = await _context.items.FindAsync(id);
             if (orders == null)
             {
                 return NotFound();
@@ -133,7 +154,7 @@ namespace final_project.Controllers
                 return NotFound();
             }
 
-            var orders = await _context.orders
+            var orders = await _context.items
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (orders == null)
             {
@@ -148,10 +169,10 @@ namespace final_project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var orders = await _context.orders.FindAsync(id);
+            var orders = await _context.items.FindAsync(id);
             if (orders != null)
             {
-                _context.orders.Remove(orders);
+                _context.items.Remove(orders);
             }
 
             await _context.SaveChangesAsync();
@@ -160,7 +181,7 @@ namespace final_project.Controllers
 
         private bool ordersExists(int id)
         {
-            return _context.orders.Any(e => e.Id == id);
+            return _context.items.Any(e => e.Id == id);
         }
     }
 }
