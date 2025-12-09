@@ -50,6 +50,16 @@ namespace final_project.Controllers
             HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(Bitm));
             return RedirectToAction("CartBuy");
         }
+
+        public async Task<IActionResult> CartBuy()
+        {
+            await HttpContext.Session.LoadAsync();
+            var sessionString = HttpContext.Session.GetString("Cart"); if (sessionString is not null)
+            {
+                Bitm = JsonSerializer.Deserialize<List<BuyItem>>(sessionString);
+            }
+            return View(Bitm);
+        }
         // GET: orders
         public async Task<IActionResult> Index()
         {
