@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using final_project.Data;
 using final_project.Models;
+using System.Text.Json;
 
 namespace final_project.Controllers
 {
@@ -30,23 +31,23 @@ namespace final_project.Controllers
             return View(item);
         }
         [HttpPost]
-        public async Task<IActionResult> cartadd(int bookId, int quantity)
+        public async Task<IActionResult> cartadd(int itmId, int quantity)
         {
             await HttpContext.Session.LoadAsync();
             var sessionString = HttpContext.Session.GetString("Cart"); if (sessionString is not null)
             {
-                Bitm = JsonSerializer.Deserialize<List<items>>(sessionString);
+                Bitm = JsonSerializer.Deserialize<List<BuyItem>>(sessionString);
             }
-            var book = await _context.items.FromSqlRaw("select * from items	where Id= '" + bookId
+            var item = await _context.items.FromSqlRaw("select * from items	where Id= '" + itmId
 + "'	").FirstOrDefaultAsync();
-            Bbks.Add(new buybook
+            Bitm.Add(new BuyItem
             {
-                Name = items.name,
-                Price = items.price,
+               name = item.name,
+                price = item.price,
                 quant = quantity
             });
 
-            HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(Bbks));
+            HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(Bitm));
             return RedirectToAction("CartBuy");
         }
         // GET: orders
