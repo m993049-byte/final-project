@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "login";
+﻿@model final_project.Models.customer
+@{
+    ViewData["Title"] = "registration";
     Layout = null;
 }
 <head>
@@ -17,8 +18,8 @@
             font-family: Arial, sans-serif;
         }
 
-        .login-box {
-            background-color: #f8f8f8; /* خلفية فاتحة */
+        .register-box {
+            background-color: #f8f8f8;
             padding: 30px 40px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
@@ -40,7 +41,7 @@
             color: #555;
         }
 
-        input.form-control {
+        input.form-control, textarea.form-control {
             width: 100%;
             padding: 8px 10px;
             margin-bottom: 15px;
@@ -52,15 +53,19 @@
             box-sizing: border-box;
         }
 
-            input.form-control:focus {
+            input.form-control:focus, textarea.form-control:focus {
                 border-color: #4CAF50;
                 outline: none;
                 box-shadow: 0 0 5px #4CAF50;
             }
 
-        .btn-login {
+        input[type=radio], input[type=checkbox] {
+            margin-right: 5px;
+        }
+
+        .btn-register {
             width: 100%;
-            background-color: #4CAF50; /* أخضر */
+            background-color: #4CAF50;
             border: none;
             padding: 10px;
             color: white;
@@ -71,12 +76,12 @@
             transition: background-color 0.3s ease;
         }
 
-            .btn-login:hover {
+            .btn-register:hover {
                 background-color: #45a049;
             }
 
         p {
-            margin-top: 15px;
+            margin-top: 10px;
             font-size: 14px;
             color: #555;
         }
@@ -95,27 +100,50 @@
                 text-align: center;
                 margin-top: 10px;
             }
+
+            p.message-success {
+                color: green;
+                text-align: center;
+                margin-top: 10px;
+            }
     </style>
 </head>
 
 <body>
-    <center>
-    <div class="login-box">
-        <h2>Login</h2>
-        <form asp-action="Login">
-            <label>User Name</label>
-            <input name="na" class="form-control" />
+    <div class="register-box">
+        <h2>Register</h2>
+        <form asp-action="registration">
+            <label>Name</label>
+            <input asp-for="name" class="form-control" autocomplete="off" />
 
-            <label>User Password</label>
-            <input name="pa" class="form-control" type="password" />
+            <label>Password</label>
+            <input name="pass" type="password" class="form-control" autocomplete="off" />
 
-            <input type="submit" value="Login" class="btn-login" />
+            <label>Confirm Password</label>
+            <input name="confpass" type="password" class="form-control" autocomplete="off" />
 
-            <p>Not registered? <a href="/usersaccounts/registration">Register here</a></p>
+            <label>Email</label>
+            <input asp-for="email" type="email" class="form-control" />
+
+            <label>Job</label>
+            <input asp-for="job" class="form-control" />
+
+            <label>Gender</label><br />
+            <input type="radio" asp-for="gender" value="Male" /> Male
+            <input type="radio" asp-for="gender" value="Female" /> Female
+
+            <label>Married</label>
+            <input asp-for="married" type="checkbox" />
+
+            <label>Location</label>
+            <textarea asp-for="location" class="form-control"></textarea>
+
+            <input type="submit" value="Register" class="btn-register" />
+
+            <p>Already registered? <a href="/usersaccounts/login">Login here</a></p>
 
             <p class="message-error">@ViewData["message"]</p>
-    
+            <p class="message-success">@ViewData["success"]</p>
         </form>
-        </center>
     </div>
 </body>

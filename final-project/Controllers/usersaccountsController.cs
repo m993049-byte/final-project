@@ -227,6 +227,54 @@ namespace final_project.Controllers
             return View();
         }
 
+
+        //registration view
+
+        public IActionResult registration()
+        {
+            return View();
+        }
+
+        //registation post
+
+        [HttpPost]
+        public async Task<IActionResult> registration(customer cli, string pass,string confpass)
+        {
+            // check if client name exists
+            var existing = await _context.customers
+                .FromSqlRaw("SELECT * FROM customer WHERE name = {0}", cli.name)
+                .FirstOrDefaultAsync();
+            if (pass != confpass) {
+
+                ViewData["message"] = "the passwords don't match!";
+                return View();
+            
+            }
+            if (existing != null)
+            {
+                ViewData["message"] = "name already exists";
+                return View();
+            }
+
+            // Insert into customer table
+            await _context.Database.ExecuteSqlRawAsync(
+                "INSERT INTO customer (name, email, job, married, gender,location) VALUES ({0}, {1}, {2}, {3}, {4},{5})",
+                cli.name, cli.email, cli.job, cli.married, cli.gender,cli.location
+            );
+
+           
+
+            await _context.Database.ExecuteSqlRawAsync(
+                "INSERT INTO usersaccounts (name, pass,role) VALUES ({0}, {1},{2})",
+                cli.name, pass, "customer"
+            );
+
+            ViewData["success"] = "Successfully added (customer + useraccount)";
+            return View();
+        }
+
+
+
         [HttpPost]
         public IActionResult SendEmail(string email, string message)
         {
