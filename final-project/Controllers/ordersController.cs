@@ -106,6 +106,11 @@ namespace final_project.Controllers
             HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(Bitm));
             return RedirectToAction("MyOrder");
         }
+
+        public async Task<IActionResult> MyOrder()
+        {
+            string ctname = HttpContext.Session.GetString("Name"); return View(await _context.orders.FromSqlRaw("select * from orders where custname = '" + ctname + "' ").ToListAsync());
+        }
         // GET: orders
         public async Task<IActionResult> Index()
         {

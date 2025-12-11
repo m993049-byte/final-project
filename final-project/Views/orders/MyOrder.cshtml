@@ -1,0 +1,31 @@
+﻿@model IEnumerable<final_project.Models.orders>
+<h1>My Orders</h1>
+<table class="table">
+
+
+
+
+<thead>
+<tr>
+
+   <th> @Html.DisplayNameFor(model => model.custname)</th>
+ <th> @Html.DisplayNameFor(model => model.total) </th>
+ <th> @Html.DisplayNameFor(model => model.orderdate)</th>
+     <th></th>
+</tr>
+</thead>
+<tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td> @Html.DisplayFor(modelItem => item.custname) </td>
+    <td> @Html.DisplayFor(modelItem => item.total)</td>
+    <td> @Html.DisplayFor(modelItem => item.orderdate)</td>
+    <td> <a asp-action="orderline" asp-route-orid="@item.Id">Details</a> </td>
+    </tr>
+    }
+
+</tbody>
+</<table>
+
+       
