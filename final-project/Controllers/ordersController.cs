@@ -60,6 +60,52 @@ namespace final_project.Controllers
             }
             return View(Bitm);
         }
+
+        public async Task<IActionResult> Buy()
+        {
+            await HttpContext.Session.LoadAsync();
+            var sessionString = HttpContext.Session.GetString("Cart");
+            if (sessionString is not null)
+            {
+                Bitm = JsonSerializer.Deserialize<List<BuyItem>>(sessionString);
+            }
+
+            string ctname = HttpContext.Session.GetString("Name");
+            orders itmorder = new orders();
+            itmorder.total = 0;
+            itmorder.custname = ctname;
+            itmorder.orderdate = DateTime.Today;
+            _context.orders.Add(itmorder);
+            await _context.SaveChangesAsync();
+            var tord = await _context.orders.FromSqlRaw("select * from bookorder where custname = '" + ctname + "' ").OrderByDescending(e => e.Id).FirstOrDefaultAsync();
+            int ordid = tord.Id;
+            decimal tot = 0;
+            foreach (var itm in Bitm.ToList())
+            {
+                orderline oline = new orderline();
+                oline.orderid = ordid;
+                oline.itemname = itm.name;
+                oline.itemquant = itm.quant;
+                oline.itemprice = itm.price;
+                _context.orderline.Add(oline);
+                await _context.SaveChangesAsync();
+
+                var itmm = await _context.items.FromSqlRaw("select * from items where name= '" + itm.name + "' ").FirstOrDefaultAsync();
+                itmm.quantity = itmm.quantity - itm.quant;
+
+                _context.Update(itmm);
+                await _context.SaveChangesAsync();
+
+                tot = tot + (itm.quant * itm.price);
+            }
+            tord.total = Convert.ToInt16(tot);
+            _context.Update(tord);
+            await _context.SaveChangesAsync();
+            ViewData["Message"] = "Thank you See you again";
+            Bitm = new List<BuyItem>();
+            HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(Bitm));
+            return RedirectToAction("MyOrder");
+        }
         // GET: orders
         public async Task<IActionResult> Index()
         {
