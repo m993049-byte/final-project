@@ -332,6 +332,19 @@ namespace final_project.Controllers
                 return Content($"Error {ex.Message}");
             }
         }
+        public IActionResult logout()
+        {
+            HttpContext.Session.Clear();
+
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+
+            return RedirectToAction("login", "usersaccounts");
+        }
+
     }
+
 }
 
