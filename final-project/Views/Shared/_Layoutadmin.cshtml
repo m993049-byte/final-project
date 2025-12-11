@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,35 +12,86 @@
 </head>
 <body>
     <header>
+
+        <!-- NAVBAR ADMIN -->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">final_project</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+
+                <!-- شعار الأدمن -->
+                <a class="navbar-brand" asp-area="" asp-controller="usersaccounts" asp-action="admin">
+                    Admin Panel
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
                     <ul class="navbar-nav flex-grow-1">
+
+                        <!-- Home (admin) -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="admin">Home</a>
                         </li>
+
+                        <!-- Manage Items -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="orders" asp-action="Item_manage">Manage Items</a>
                         </li>
+
+                        <!-- Send Email -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="Email">Send Email</a>
                         </li>
+
+                        <!-- Users Search -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="searchall">Users Search</a>
                         </li>
+
+                        <!-- Orders Report -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="orders" asp-action="Index">Orders Report</a>
+                        </li>
+
+                        <!-- Dashboard -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="items" asp-action="Dashboard">Dashboard</a>
+                        </li>
+
+                        <!-- Add Admin -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="Create">Add Admin</a>
+                        </li>
+
+                        <!-- User Management (Index) -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="Index">User Management</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- يمين النافبار -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <span class="nav-link text-muted">
+                                @Context.Session.GetString("username")
+                            </span>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" asp-controller="usersaccounts" asp-action="logout">Logout</a>
                         </li>
                     </ul>
+
                 </div>
             </div>
         </nav>
+
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -47,12 +100,15 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - final_project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - final_project -
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
