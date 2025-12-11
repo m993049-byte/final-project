@@ -3,6 +3,7 @@ using final_project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,8 +47,11 @@ namespace final_project.Controllers
         }
 
         // GET: usersaccounts/Create
-        public IActionResult Create()
-        {
+        public IActionResult Create() { 
+            var role = HttpContext.Session.GetString("Role");
+            if (role != "admin") {
+            return RedirectToAction("customer");
+            }
             return View();
         }
 
@@ -112,9 +116,11 @@ namespace final_project.Controllers
             return View();
         }
 
-     
+        //create post
 
-       
+  
+
+
 
 
 
@@ -123,16 +129,33 @@ namespace final_project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,name,pass,role")] usersaccounts usersaccounts)
+        public async Task<IActionResult> Create(string na, string pa, string confpass)
         {
-            if (ModelState.IsValid)
+            if (pa != confpass)
             {
-                _context.Add(usersaccounts);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewData["message"] = "Passwords do not match!";
+                return View();
             }
-            return View(usersaccounts);
+
+            var existing = await _context.usersaccounts
+                .FromSqlRaw("SELECT * FROM usersaccounts WHERE name = {0}", na)
+                .FirstOrDefaultAsync();
+
+            if (existing != null)
+            {
+                ViewData["message"] = "Username already exists!";
+                return View();
+            }
+
+            await _context.Database.ExecuteSqlRawAsync(
+                "INSERT INTO usersaccounts (name, pass, role) VALUES ({0}, {1}, {2})",
+                na, pa, "admin"
+            );
+
+            ViewData["success"] = "User successfully created!";
+            return View();
         }
+
 
         // GET: usersaccounts/Edit/5
         public async Task<IActionResult> Edit(int? id)
