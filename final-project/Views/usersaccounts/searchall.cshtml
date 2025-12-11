@@ -1,0 +1,52 @@
+﻿@model IEnumerable<final_project.Models.usersaccounts>
+@{
+    
+    Layout = "_Layoutadmin";
+    var username = Context.Session.GetString("Name");
+}
+<head>
+ 
+</head>
+
+<body>
+    
+        <div>
+            <h2>search user</h2>
+            <form asp-action="searchall">
+                <label>Role</label>
+                <select class="form-control" name="role" id="cat" onchange="gettitle()">
+                    <option value="0">Please select</option>
+                    <option value="admin">Admin</option>
+                    <option value="customer">Customer</option>
+                </select>
+                <label>User Name</label>
+                <input name="na" class="form-control" />
+
+              
+
+                <input type="submit" value="Find" class="btn-login" />
+
+                
+
+            </form>
+    
+    </div>
+    @if (Model != null && Model.Any())
+    {
+        <div class="mt-4">
+            <h3>Result:</h3>
+
+            @foreach (var user in Model)
+            {
+                <div class="card p-3 mb-3" style="width: 300px;">
+                    <p><strong>Username:</strong> @user.name</p>
+                    <p><strong>Password:</strong> @user.pass</p>
+                    <p><strong>Role:</strong> @user.role</p>
+
+                </div>
+            }
+        </div>
+    }
+
+</body>
+

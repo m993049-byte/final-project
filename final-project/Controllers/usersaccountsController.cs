@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -54,6 +55,34 @@ namespace final_project.Controllers
             }
             return View();
         }
+
+        //searchall GET
+        [HttpGet]
+        public IActionResult searchall()
+        {
+            var role = HttpContext.Session.GetString("Role");
+            if (role != "admin")
+            {
+                return RedirectToAction("login", "usersaccounts");
+            }
+            return View(new List<usersaccounts>());  
+        }
+
+
+        //searchall POST action
+        [HttpPost]
+        public IActionResult searchall(string role, string na)
+
+        {
+           
+            var data = _context.usersaccounts
+                .FromSqlRaw("SELECT id,name, pass,role FROM usersaccounts WHERE name = {0}", na)
+                .ToList();
+
+            return View(data);
+        }
+
+
 
         //login view 
         public IActionResult Login()
