@@ -111,6 +111,12 @@ namespace final_project.Controllers
         {
             string ctname = HttpContext.Session.GetString("Name"); return View(await _context.orders.FromSqlRaw("select * from orders where custname = '" + ctname + "' ").ToListAsync());
         }
+
+        public async Task<IActionResult> orderline(int? orid)
+        {
+            var buyitm = await _context.orderline.FromSqlRaw("select * from orderline where orderid = '" + orid + "' ").ToListAsync();
+            return View(buyitm);
+        }
         // GET: orders
         public async Task<IActionResult> Index()
         {
