@@ -1,0 +1,122 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    Layout = "_Layoutadmin";
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Category');
+            data.addColumn('number', 'Cars');
+
+            // نفس فكرة الدكتور: نجيب القيم من ViewData
+            data.addRows([
+                ['Category 1', @ViewData["d1"]],
+                ['Category 2', @ViewData["d2"]]
+                // لو عندك d3 تقدر تضيفها هنا
+                // ['Category 3', @ViewData["d3"]]
+            ]);
+
+            var options = {
+                'title': 'Number of Cars per Category',
+                'width': 500,
+                'height': 350
+            };
+
+            var chart = new google.visualization.PieChart(
+                document.getElementById('chart_div')
+            );
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="chart_div"></div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-warning text-center">
+                            Category 1 Cars
+                        </div>
+                        <div class="card-body text-center">
+                            <img src="~/images/cata1.jpg" width="80" />
+                        </div>
+                        <div class="card-footer text-center">
+                            Number of Cars:
+                            <div>@ViewData["d1"]</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-warning text-center">
+                            Category 2 Cars
+                        </div>
+                        <div class="card-body text-center">
+                            <img src="~/images/cata2.jpg" width="80" />
+                        </div>
+                        <div class="card-footer text-center">
+                            Number of Cars:
+                            <div>@ViewData["d2"]</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-white text-center">
+                            Total Items
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>@ViewData["totalItems"]</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card border-success">
+                        <div class="card-header bg-success text-white text-center">
+                            Sold Quantity
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>@ViewData["soldQty"]</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
