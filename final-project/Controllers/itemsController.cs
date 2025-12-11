@@ -155,28 +155,32 @@ namespace final_project.Controllers
             return _context.items.Any(e => e.Id == id);
         }
 
-    
 
-public async Task<IActionResult> Dashboard()
+
+        public async Task<IActionResult> Dashboard()
         {
-            // عدد السيارات في كل كاتيجوري
-            int d1 = await _context.items.CountAsync(i => i.category == 1);
-            int d2 = await _context.items.CountAsync(i => i.category == 2);
+            // نجيب عدد السيارات لكل كاتيجوري بشكل تلقائي
+            var cats = await _context.items
+                .GroupBy(i => i.category)
+                .Select(g => new CategoryStat
+                {
+                    Category = g.Key,
+                    Count = g.Count()
+                })
+                .OrderBy(c => c.Category)
+                .ToListAsync();
 
-            // تقدر تضيف كاتيجوري ثالث ورابع لو حبيت
-            // int d3 = await _context.items.CountAsync(i => i.category == 3);
-
-            ViewData["d1"] = d1;
-            ViewData["d2"] = d2;
-
-            // مجموع عدد السيارات المسجّلة (كل الآيتمز)
+            // مجموع عدد الآيتمز
             ViewData["totalItems"] = await _context.items.CountAsync();
 
-            // مجموع الكمية المباعة من جدول orderline
-            ViewData["soldQty"] = await _context.orderline.SumAsync(o => (int?)o.itemquant) ?? 0;
+            // مجموع الكمية المباعة من orderline (لو فاضي يرجع 0)
+            ViewData["soldQty"] = await _context.orderline
+                                                .SumAsync(o => (int?)o.itemquant) ?? 0;
 
-            return View();
+            // نرسل قائمة الكاتيجوري للـ View
+            return View(cats);
         }
+
 
     }
 }
