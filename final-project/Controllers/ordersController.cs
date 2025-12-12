@@ -118,10 +118,13 @@ namespace final_project.Controllers
             return View(buyitm);
         }
         // GET: orders
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.items.ToListAsync());
-        }
+        //public async Task<IActionResult> Index()
+        //{
+        //    var orItems = await _context.orders.FromSqlRaw("SELECT custname, SUM(total) as total FROM orders GROUP BY custname  ").ToListAsync();
+
+        //    // تمرير البيانات إلى الـ View
+        //    return View(orItems);
+        //}
 
         // GET: orders/Details/5
         public async Task<IActionResult> Details(int? id)
