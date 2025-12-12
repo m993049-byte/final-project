@@ -76,7 +76,7 @@ namespace final_project.Controllers
         {
            
             var data = _context.usersaccounts
-                .FromSqlRaw("SELECT id,name, pass,role FROM usersaccounts WHERE name = {0}", na)
+                .FromSqlRaw("SELECT id,name, pass,role FROM usersaccounts WHERE name = {0} and role = {1}", na , role)
                 .ToList();
 
             return View(data);
