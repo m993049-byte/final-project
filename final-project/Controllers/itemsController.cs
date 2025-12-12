@@ -94,8 +94,22 @@ namespace final_project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,name,description,price,discount,category,quantity,imgfile")] items items)
+        public async Task<IActionResult> Edit(IFormFile file , int id, [Bind("Id,name,description,price,discount,category,quantity,imgfile")] items items)
         {
+
+            if (file != null)
+            {
+                string filename = file.FileName;
+                string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images"));
+                using (var filestream = new FileStream(Path.Combine(path, filename), FileMode.Create))
+                {
+                    await file.CopyToAsync(filestream);
+                }
+
+                items.imgfile = filename;
+            }
+
+
             if (id != items.Id)
             {
                 return NotFound();
