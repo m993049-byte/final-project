@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using final_project.Data;
+using final_project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using final_project.Data;
-using final_project.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace final_project.Controllers
 {
@@ -117,14 +118,19 @@ namespace final_project.Controllers
             var buyitm = await _context.orderline.FromSqlRaw("select * from orderline where orderid = '" + orid + "' ").ToListAsync();
             return View(buyitm);
         }
-        // GET: orders
-        //public async Task<IActionResult> Index()
-        //{
-        //    var orItems = await _context.orders.FromSqlRaw("SELECT custname, SUM(total) as total FROM orders GROUP BY custname  ").ToListAsync();
 
-        //    // تمرير البيانات إلى الـ View
-        //    return View(orItems);
-        //}
+        public async Task<IActionResult> ordersdetail(string? custname)
+        {
+            var orItems = await _context.orders.FromSqlRaw("select * from orders  where  custname = '" + custname + "'  ").ToListAsync();
+            return View(orItems);
+        }
+        // GET: orders
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.items.ToListAsync());
+            var orItems = await _context.report.FromSqlRaw("SELECT custname, SUM(total) as total FROM orders GROUP BY custname  ").ToListAsync();
+            
+        }
 
         // GET: orders/Details/5
         public async Task<IActionResult> Details(int? id)
