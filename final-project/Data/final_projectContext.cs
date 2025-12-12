@@ -20,6 +20,7 @@ namespace final_project.Data
         public virtual DbSet<orderline> orderline { get; set; }
         public DbSet<final_project.Models.orders> orders { get; set; } = default!;
         public DbSet<final_project.Models.orders> report { get; set; } = default!;
+        public DbSet<final_project.Ordersdetail> orderdetail { get; set; }
 
     }
 }
