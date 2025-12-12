@@ -6,94 +6,182 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - final_project</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/final_project.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
 
-        <!-- NAVBAR ADMIN -->
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        body {
+            background: #f5f7fb;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar-custom {
+            background: #1e1f24 !important;
+            border-bottom: 2px solid #0d6efd;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+
+            /* Navbar Brand - smaller */
+            .navbar-custom .navbar-brand {
+                color: #0d6efd !important;
+                font-weight: 600;
+                font-size: 1.0rem; /* كان 1.15rem */
+                letter-spacing: .5px;
+            }
+
+            /* Nav links smaller */
+            .navbar-custom .nav-link {
+                color: #d7d7d7 !important;
+                padding: 6px 10px !important;
+                font-size: 0.75rem; /* كان 0.85rem */
+                font-weight: 500;
+                transition: 0.25s ease;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+                .navbar-custom .nav-link i {
+                    font-size: 0.9rem; /* تصغير الايقونات قليلاً */
+                    width: 18px;
+                    text-align: center;
+                }
+
+                .navbar-custom .nav-link:hover {
+                    color: #0d6efd !important;
+                    transform: translateY(-1px);
+                }
+
+                .navbar-custom .nav-link.text-danger:hover {
+                    color: #ff4d4d !important;
+                }
+
+        .navbar-nav {
+            gap: 5px;
+        }
+
+        .username-display {
+            color: #9ba3b0 !important;
+            font-weight: bold;
+            font-size: 0.75rem; /* مصغّر */
+        }
+
+        footer {
+            background: #1e1f24;
+            color: #bbb;
+            padding: 12px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem; /* مصغّر */
+        }
+
+            footer a {
+                color: #0d6efd !important;
+            }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-custom navbar-dark mb-4">
             <div class="container-fluid">
 
-                <!-- شعار الأدمن -->
                 <a class="navbar-brand" asp-area="" asp-controller="usersaccounts" asp-action="admin">
                     Admin Panel
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
+                    <!-- LEFT MENU -->
                     <ul class="navbar-nav flex-grow-1">
 
-                        <!-- Home (admin) -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="admin">Home</a>
+                            <a class="nav-link" asp-controller="usersaccounts" asp-action="admin">
+                                <i class="fa-solid fa-house"></i> Home
+                            </a>
                         </li>
 
-                        <!-- Manage Items -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="items" asp-action="Index">Manage Items</a>
-                        </li>
-                        <!-- Item list -->
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="items" asp-action="list">list items</a>
+                            <a class="nav-link" asp-controller="items" asp-action="Index">
+                                <i class="fa-solid fa-box-open"></i> Manage Items
+                            </a>
                         </li>
 
-                        <!-- Send Email -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="Email">Send Email</a>
+                            <a class="nav-link" asp-controller="items" asp-action="list">
+                                <i class="fa-solid fa-list-ul"></i> List Items
+                            </a>
                         </li>
 
-                        <!-- Users Search -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="searchall">Users Search</a>
+                            <a class="nav-link" asp-controller="usersaccounts" asp-action="Email">
+                                <i class="fa-solid fa-envelope"></i> Send Email
+                            </a>
                         </li>
 
-                        <!-- Orders Report -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="orders" asp-action="Index">Orders Report</a>
+                            <a class="nav-link" asp-controller="usersaccounts" asp-action="searchall">
+                                <i class="fa-solid fa-magnifying-glass"></i> Users Search
+                            </a>
                         </li>
 
-                        <!-- Dashboard -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="items" asp-action="Dashboard">Dashboard</a>
+                            <a class="nav-link" asp-controller="orders" asp-action="Index">
+                                <i class="fa-solid fa-file-invoice"></i> Orders Report
+                            </a>
                         </li>
 
-                        <!-- Add Admin -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="Create">Add Admin</a>
+                            <a class="nav-link" asp-controller="items" asp-action="Dashboard">
+                                <i class="fa-solid fa-chart-line"></i> Dashboard
+                            </a>
                         </li>
 
-                        <!-- User Management (Index) -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="usersaccounts" asp-action="Index">User Management</a>
+                            <a class="nav-link" asp-controller="usersaccounts" asp-action="Create">
+                                <i class="fa-solid fa-user-plus"></i> Add Admin
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="usersaccounts" asp-action="Index">
+                                <i class="fa-solid fa-users-gear"></i> User Management
+                            </a>
                         </li>
 
                     </ul>
 
-                    <!-- يمين النافبار -->
+                    <!-- RIGHT SIDE -->
                     <ul class="navbar-nav">
+
                         <li class="nav-item">
-                            <span class="nav-link text-muted">
+                            <span class="nav-link username-display">
                                 @Context.Session.GetString("username")
                             </span>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-danger" asp-controller="usersaccounts" asp-action="logout">Logout</a>
+                            <a class="nav-link text-danger" asp-controller="usersaccounts" asp-action="logout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
                         </li>
+
                     </ul>
 
                 </div>
             </div>
         </nav>
-
     </header>
 
     <div class="container">
@@ -102,7 +190,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer>
         <div class="container">
             &copy; 2025 - final_project -
             <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

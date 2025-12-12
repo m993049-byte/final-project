@@ -4,53 +4,150 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - final_project</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/final_project.styles.css" asp-append-version="true" />
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        body {
+            background: #f5f7fb;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar-custom {
+            background: #1e1f24 !important;
+            border-bottom: 2px solid #0d6efd;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+
+            /* Title smaller by 10% */
+            .navbar-custom .navbar-brand {
+                color: #0d6efd !important;
+                font-weight: 600;
+                font-size: 1.15rem; /* كان 1.3rem */
+                letter-spacing: .5px;
+            }
+
+            /* nav-links 10% smaller */
+            .navbar-custom .nav-link {
+                color: #d7d7d7 !important;
+                padding: 7px 12px !important;
+                font-size: 0.85rem; /* كان 0.95rem */
+                font-weight: 500;
+                transition: 0.25s ease;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+                .navbar-custom .nav-link i {
+                    font-size: 1rem;
+                    width: 18px;
+                    text-align: center;
+                }
+
+                .navbar-custom .nav-link:hover {
+                    color: #0d6efd !important;
+                    transform: translateY(-1px);
+                }
+
+                .navbar-custom .nav-link.text-danger:hover {
+                    color: #ff4d4d !important;
+                }
+
+        .navbar-nav {
+            gap: 6px;
+        }
+
+        .username-display {
+            color: #9ba3b0 !important;
+            font-weight: bold;
+            font-size: 0.85rem; /* صغّرته نفس الباقي */
+        }
+
+        footer {
+            background: #1e1f24;
+            color: #bbb;
+            padding: 12px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem; /* برضو صغرتها شوي */
+        }
+
+            footer a {
+                color: #0d6efd !important;
+            }
+    </style>
 </head>
+
 <body>
+
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-custom navbar-dark mb-4">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="usersaccounts" asp-action="customer">
-                    Formula 1 cars
+
+                <a class="navbar-brand" asp-controller="usersaccounts" asp-action="customer">
+                    Formula 1 Cars
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    <!-- LEFT MENU -->
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="usersaccounts" asp-action="customer">Home</a>
+                            <a class="nav-link" asp-controller="usersaccounts" asp-action="customer">
+                                <i class="fa-solid fa-house"></i> Home
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="orders" asp-action="CatalogueBuy">Catalogue</a>
+                            <a class="nav-link" asp-controller="orders" asp-action="CatalogueBuy">
+                                <i class="fa-solid fa-car-side"></i> Catalogue
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="orders" asp-action="MyOrder">My Purchase</a>
+                            <a class="nav-link" asp-controller="orders" asp-action="MyOrder">
+                                <i class="fa-solid fa-receipt"></i> My Purchase
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="items" asp-action="list">Items List</a>
+                            <a class="nav-link" asp-controller="items" asp-action="list">
+                                <i class="fa-solid fa-list-ul"></i> Items List
+                            </a>
                         </li>
+
                     </ul>
 
+                    <!-- RIGHT SIDE -->
                     <ul class="navbar-nav">
+
                         <li class="nav-item">
-                            <span class="nav-link text-muted">
+                            <span class="nav-link username-display">
                                 @Context.Session.GetString("username")
                             </span>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-danger" asp-area="" asp-controller="usersaccounts" asp-action="logout">Logout</a>
-                        </li>
-                    </ul>
-                </div>
 
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" asp-controller="usersaccounts" asp-action="logout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
             </div>
         </nav>
     </header>
@@ -61,14 +158,17 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer>
         <div class="container">
-            &copy; 2025 - final_project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - final_project -
+            <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
