@@ -23,6 +23,13 @@ namespace final_project.Controllers
         // GET: items
         public async Task<IActionResult> Index()
         {
+
+           if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("Login", "usersaccounts");
+            }
+
+
             return View(await _context.items.ToListAsync());
         }
 
