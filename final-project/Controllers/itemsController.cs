@@ -24,7 +24,7 @@ namespace final_project.Controllers
         public async Task<IActionResult> Index()
         {
 
-           if (HttpContext.Session.GetString("Role") != "Admin")
+           if (HttpContext.Session.GetString("Role") != "admin")
             {
                 return RedirectToAction("Login", "usersaccounts");
             }

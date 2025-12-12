@@ -278,7 +278,7 @@ namespace final_project.Controllers
         public IActionResult Email()
         {
             HttpContext.Session.LoadAsync();
-           if (HttpContext.Session.GetString("Role") == null) { 
+           if (HttpContext.Session.GetString("Role") != "admin") { 
                 return RedirectToAction("login", "usersaccounts");
             }
             return View();

@@ -1,16 +1,137 @@
 ﻿@{
-    
     ViewData["Title"] = "Email";
 }
 
-<h1>إرسال بريد إلكتروني</h1>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Final_Project</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        /* General page styling */
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
 
-<form asp-action="SendEmail" method="post">
-    <label for="Email">البريد الإلكتروني للعميل</label>
-    <input type="email" id="Email" name="Email" placeholder="أدخل البريد الإلكتروني" required />
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
 
-    <label for="Message">الرسالة</label>
-    <textarea id="Message" name="Message" required></textarea>
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    <button type="submit">إرسال</button>
-</form>
+            .form-header h1 {
+                font-size: 24px;
+                color: #333;
+                font-weight: bold;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                font-size: 16px;
+                color: #555;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .form-group input, .form-group textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 16px;
+                color: #333;
+            }
+
+            .form-group textarea {
+                resize: vertical;
+                min-height: 150px;
+            }
+
+        .button {
+            background-color: #ADD8E6; /* Light blue background */
+            color: white; /* White text color */
+            padding: 10px 20px; /* Padding for the button */
+            border: none; /* Removes default border */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 16px; /* Text size */
+            cursor: pointer; /* Pointer cursor on hover */
+            display: inline-flex; /* Allows text and icon to align */
+            align-items: center; /* Center content vertically */
+            transition: background-color 0.3s, transform 0.2s; /* Smooth transition for hover */
+            margin-top: 20px;
+        }
+
+            .button svg {
+                margin-right: 8px; /* Space between icon and text */
+            }
+
+            .button:hover {
+                background-color: #5F9EA0; /* Darker shade of blue */
+                transform: translateY(-2px); /* Slight lift effect */
+            }
+
+            .button:active {
+                transform: translateY(0);
+            }
+
+        .form-group small {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-header">
+            <h1>إرسال بريد إلكتروني</h1>
+        </div>
+
+        <form asp-action="SendEmail" method="post">
+            <div class="form-group">
+                <label for="Email">البريد الإلكتروني للعميل</label>
+                <input type="email" id="Email" name="Email" placeholder="أدخل البريد الإلكتروني" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Message">الرسالة</label>
+                <textarea id="Message" name="Message" placeholder="أدخل الرسالة" required></textarea>
+            </div>
+
+            <button class="button" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 12l18 9l-6-9l6-9l-18 9z" />
+                </svg>
+                إرسال
+            </button>
+        </form>
+
+        <div class="form-footer">
+            <small>استخدام هذا النموذج لإرسال الرسائل الإلكترونية للعملاء بسهولة.</small>
+        </div>
+    </div>
+
+</body>
+</html>
