@@ -6,7 +6,6 @@
     ViewData["Title"] = "Index";
 
 }
-<h1>Index</h1>
 <p>
     <!-- Trigger the modal with a button -->
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#insertModal"> New Item</button>
@@ -60,9 +59,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.quantity)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.imgfile)
-            </td>
+          
+                <td>
+                    <img src="@item.imgfile" height="150" alt="Image" />
+                </td>
+
+
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
