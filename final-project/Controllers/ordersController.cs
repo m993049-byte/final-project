@@ -32,7 +32,7 @@ namespace final_project.Controllers
             return View(item);
         }
         [HttpPost]
-        public async Task<IActionResult> cartadd(int itmId, int quantity)
+        public async Task<IActionResult> cartadd(int itemId, int quantity)
         {
             await HttpContext.Session.LoadAsync();
             var sessionString = HttpContext.Session.GetString("Cart"); 
@@ -45,17 +45,16 @@ namespace final_project.Controllers
                
                 Bitm = new List<BuyItem>();
             }
-            var Item = await _context.items.FromSqlRaw("select * from items	where Id= '" + itmId
-+ "'	").FirstOrDefaultAsync();
-            if (Item is null)
+            var item = await _context.items.FindAsync(itemId);
+            if (item is null)
             {
                 TempData["Error"] = ".";
                 return RedirectToAction("Index", "items");
             }
             Bitm.Add(new BuyItem
             {
-               name = Item.name,
-                price = Item.price,
+               name = item.name,
+                price = item.price,
                 quant = quantity
             });
 
@@ -138,7 +137,7 @@ namespace final_project.Controllers
         // GET: orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.items.ToListAsync());
+            return View(await _context.orders.ToListAsync());
             var orItems = await _context.report.FromSqlRaw("SELECT custname, SUM(total) as total FROM orders GROUP BY custname  ").ToListAsync();
             
         }
