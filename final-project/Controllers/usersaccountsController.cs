@@ -284,7 +284,7 @@ namespace final_project.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SendEmail(string email, string message)
+        public IActionResult SendEmail(string email, string sub, string message)
         {
             try
             {
@@ -299,7 +299,7 @@ namespace final_project.Controllers
                 var mailMessage = new MailMessage
                 {
                     From = new MailAddress("formila1pro@gmail.com"),
-                    Subject = "Formila ",
+                    Subject = sub,
                     Body = message,
                     IsBodyHtml = true
                 };
