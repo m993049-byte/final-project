@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<final_project.Models.orders>
 @{
+    Layout = "_Layoutadmin";
     ViewData["Title"] = "Purchase report page";
 }
 
@@ -13,7 +14,8 @@
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
+	<tbody>
+		<a href="c:\users\majed\source\repos\final-project\final-project\views\orders\delete.cshtml">c:\users\majed\source\repos\final-project\final-project\views\orders\delete.cshtml</a>
         @foreach (var item in Model)
         {
             <tr>
