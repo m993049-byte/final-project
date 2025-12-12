@@ -190,6 +190,18 @@ namespace final_project.Controllers
             // نرسل قائمة الكاتيجوري للـ View
             return View(cats);
         }
+        public async Task<IActionResult> list()
+        {
+
+            if (HttpContext.Session.GetString("Role") != "admin")
+            {
+                return RedirectToAction("Login", "usersaccounts");
+            }
+
+
+            return View(await _context.items.ToListAsync());
+        }
+
 
 
     }

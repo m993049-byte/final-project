@@ -292,13 +292,13 @@ namespace final_project.Controllers
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("your-email@gmail.com", "your-email-password"),
+                    Credentials = new NetworkCredential("formila1pro@gmail.com", "Formila123"),
                     EnableSsl = true
                 };
 
                 var mailMessage = new MailMessage
                 {
-                    From = new MailAddress("your-email@gmail.com"),
+                    From = new MailAddress("formila1pro@gmail.com"),
                     Subject = "Nn ",
                     Body = message,
                     IsBodyHtml = true
