@@ -109,7 +109,7 @@ namespace final_project.Controllers
 
                 tot = tot + (itm.quant * itm.price);
             }
-            tord.total = Convert.ToInt16(tot);
+            tord.total = Convert.ToInt32(tot);
             _context.Update(tord);
             await _context.SaveChangesAsync();
             ViewData["Message"] = "Thank you See you again";
