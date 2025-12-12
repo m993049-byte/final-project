@@ -69,8 +69,16 @@ namespace final_project.Controllers
             {
                 Bitm = JsonSerializer.Deserialize<List<BuyItem>>(sessionString);
             }
+            else
+            {
+               
+                Bitm = new List<BuyItem>();
+            }
+
+          
             return View(Bitm);
         }
+          
 
         public async Task<IActionResult> Buy()
         {
@@ -97,7 +105,7 @@ namespace final_project.Controllers
                 oline.orderid = ordid;
                 oline.itemname = itm.name;
                 oline.itemquant = itm.quant;
-                oline.itemprice = itm.price;
+                oline.itemprice = (int)itm.price;
                 _context.orderline.Add(oline);
                 await _context.SaveChangesAsync();
 
