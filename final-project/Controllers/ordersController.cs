@@ -35,16 +35,27 @@ namespace final_project.Controllers
         public async Task<IActionResult> cartadd(int itmId, int quantity)
         {
             await HttpContext.Session.LoadAsync();
-            var sessionString = HttpContext.Session.GetString("Cart"); if (sessionString is not null)
+            var sessionString = HttpContext.Session.GetString("Cart"); 
+            if (sessionString is not null)
             {
                 Bitm = JsonSerializer.Deserialize<List<BuyItem>>(sessionString);
             }
-            var item = await _context.items.FromSqlRaw("select * from items	where Id= '" + itmId
+            else
+            {
+               
+                Bitm = new List<BuyItem>();
+            }
+            var Item = await _context.items.FromSqlRaw("select * from items	where Id= '" + itmId
 + "'	").FirstOrDefaultAsync();
+            if (Item is null)
+            {
+                TempData["Error"] = ".";
+                return RedirectToAction("Index", "items");
+            }
             Bitm.Add(new BuyItem
             {
-               name = item.name,
-                price = item.price,
+               name = Item.name,
+                price = Item.price,
                 quant = quantity
             });
 
@@ -78,7 +89,7 @@ namespace final_project.Controllers
             itmorder.orderdate = DateTime.Today;
             _context.orders.Add(itmorder);
             await _context.SaveChangesAsync();
-            var tord = await _context.orders.FromSqlRaw("select * from bookorder where custname = '" + ctname + "' ").OrderByDescending(e => e.Id).FirstOrDefaultAsync();
+            var tord = await _context.orders.FromSqlRaw("select * from orders where custname = '" + ctname + "' ").OrderByDescending(e => e.Id).FirstOrDefaultAsync();
             int ordid = tord.Id;
             decimal tot = 0;
             foreach (var itm in Bitm.ToList())
@@ -113,9 +124,9 @@ namespace final_project.Controllers
             string ctname = HttpContext.Session.GetString("Name"); return View(await _context.orders.FromSqlRaw("select * from orders where custname = '" + ctname + "' ").ToListAsync());
         }
 
-        public async Task<IActionResult> orderline(int? orid)
+        public async Task<IActionResult> orderline(int? ordid)
         {
-            var buyitm = await _context.orderline.FromSqlRaw("select * from orderline where orderid = '" + orid + "' ").ToListAsync();
+            var buyitm = await _context.orderline.FromSqlRaw("select * from orderline where orderid = '" + ordid + "' ").ToListAsync();
             return View(buyitm);
         }
 
