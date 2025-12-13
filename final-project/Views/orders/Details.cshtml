@@ -1,36 +1,48 @@
-﻿@model final_project.Models.orders
+﻿@model List<final_project.Models.orders>
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Customer Orders Details";
 }
 
-<h1>Details</h1>
+<h1>Orders for Customer</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().custname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().orderdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.custname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.total)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Items</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <div>
-    <h4>orders</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.custname)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.custname)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.orderdate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.orderdate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.total)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.total)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

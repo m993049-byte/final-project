@@ -139,7 +139,7 @@ namespace final_project.Controllers
 
         public async Task<IActionResult> ordersdetail(string? custname)
         {
-            var orItems = await _context.orders.FromSqlRaw("select * from orders  where  custname = '" + custname + "'  ").ToListAsync();
+            var orItems = await _context.orders.FromSqlRaw("select * from orders  where  Id = '" + custname + "'  ").ToListAsync();
             return View(orItems);
         }
         // GET: orders
@@ -151,21 +151,27 @@ namespace final_project.Controllers
         }
 
         // GET: orders/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string custname)
         {
-            if (id == null)
+           
+            if (string.IsNullOrEmpty(custname))
+            {
+                return NotFound(); 
+            }
+
+           
+
+            var ordersList = await _context.orders
+                .Where(m => m.custname == custname)  
+                .ToListAsync();
+
+            if (ordersList == null || ordersList.Count == 0)
             {
                 return NotFound();
             }
 
-            var orders = await _context.items
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (orders == null)
-            {
-                return NotFound();
-            }
-
-            return View(orders);
+           
+            return View(ordersList);
         }
 
         // GET: orders/Create
