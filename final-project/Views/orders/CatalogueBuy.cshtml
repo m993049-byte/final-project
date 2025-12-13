@@ -15,7 +15,8 @@
                         @item.name
                     </div> 
                     <div class="card-body">
-                        <img src="~/images/@item.imgfile" height="150" />
+                        <img src="@item.imgfile" height="150" alt="Image" />
+
                     </div>
                     <div class="card-footer">
                         <a asp-action="ItemBuyDetail" asp-route-id="@item.Id">Buy</a> 

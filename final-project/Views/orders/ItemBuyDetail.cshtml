@@ -24,8 +24,10 @@
     <dt> Pic </dt>
     <dd>
     </dd>
-    <img src="~/images/@Model.imgfile" height="150" />
-    <br />@Model.imgfile
+    <img src="@Model.imgfile"
+         class="img-thumbnail"
+         style="width:370px; height:220px; object-fit:cover;"
+         alt="Image" />
     
 </dl> <p style="color:red"> @ViewData["message"]</p>
 <form asp-action="cartadd" asp-controller="orders">
