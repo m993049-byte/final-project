@@ -4,126 +4,117 @@
     var username = Context.Session.GetString("Name");
 }
 
-<head>
-    <style>
-        /* الثيم العام */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color:black;
-            color: #cfd8dc; /* نص فاتح */
-            padding: 20px;
-        }
-
-        h2, h3 {
-            color: #00b0ff; /* أزرق فاتح */
-        }
-
-        /* النموذج */
-        form {
-            background-color: #1a1f29; /* أزرق غامق/أسود */
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 400px;
-        }
-
-        label {
-            display: block;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #81d4fa; /* أزرق فاتح */
-        }
-
-        input.form-control, select.form-control {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #00b0ff;
-            background-color: #0d1117;
-            color: #cfd8dc;
-        }
-
-            input.form-control:focus, select.form-control:focus {
-                outline: none;
-                border-color: #00e5ff;
-                box-shadow: 0 0 5px #00e5ff;
-            }
-
-        /* زر البحث */
-        .btn-login {
-            background-color: #00b0ff;
-            color: #0d1117;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-            .btn-login:hover {
-                background-color: #00e5ff;
-            }
-
-        /* البطاقات */
-        .card {
-            background-color: #1a1f29;
-            border: 1px solid #00b0ff;
-            border-radius: 10px;
-            padding: 15px;
-            color: #cfd8dc;
-            transition: transform 0.2s;
-        }
-
-            .card:hover {
-                transform: scale(1.03);
-                box-shadow: 0 0 10px #00b0ff;
-            }
-
-        .mt-4 {
-            margin-top: 20px;
-        }
-    </style>
-</head>
-
-<body>
-    <div>
-      <center>
-        <h2>Search User</h2>
-        <form asp-action="searchall">
-            <label>Role</label>
-            <select class="form-control" name="role" id="cat" onchange="gettitle()">
-                <option value="0">Please select</option>
-                <option value="admin">Admin</option>
-                <option value="customer">Customer</option>
-            </select>
-
-            <label>User Name</label>
-            <input name="na" class="form-control" />
-
-            <input type="submit" value="Find" class="btn-login" />
-        </form>
-        </center>
-    </div>
-
-    @if (Model != null && Model.Any())
-    {
-        <div class="mt-4">
-            <center>
-            <h3>Result:</h3>
-
-            @foreach (var user in Model)
-            {
-                <div class="card p-3 mb-3" style="width: 300px;">
-                    
-                    <p><strong>Username:</strong> @user.name</p>
-                    <p><strong>Password:</strong> @user.pass</p>
-                    <p><strong>Role:</strong> @user.role</p>
-                   
-                </div>
-            }
-            </center>
-        </div>
+<style>
+    /* محتوى الصفحة فقط، لا نلمس body */
+    .search-container {
+        max-width: 500px;
+        margin: 80px auto 40px auto; /* أعلى 80px لتعويض Navbar الأصلي */
+        background-color: #1a1f29; /* الفورم بوكس أسود */
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #00b0ff44;
     }
-</body>
+
+    h2, h3 {
+        color: #00b0ff;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    body{
+        background-color:black;
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #00b0ff;
+    }
+
+    input.form-control, select.form-control {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #00b0ff;
+        background-color: #0d1117;
+        color: #cfd8dc;
+    }
+
+        input.form-control:focus, select.form-control:focus {
+            outline: none;
+            border-color: #00e5ff;
+            box-shadow: 0 0 5px #00e5ff;
+        }
+
+    .btn-login {
+        background-color: #00b0ff;
+        color: #0d1117;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        display: block;
+        margin: 0 auto;
+    }
+
+        .btn-login:hover {
+            background-color: #00e5ff;
+        }
+
+    .card {
+        background-color: #1a1f29;
+        border: 1px solid #00b0ff;
+        border-radius: 10px;
+        padding: 15px;
+        color: #cfd8dc;
+        margin: 15px auto;
+        max-width: 300px;
+        transition: transform 0.2s;
+    }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 10px #00b0ff;
+        }
+
+    .results {
+        text-align: center;
+        margin-top: 40px;
+    }
+</style>
+
+<div class="search-container">
+    <h2>Search User</h2>
+    <form asp-action="searchall">
+        <label>Role</label>
+        <select class="form-control" name="role" id="cat" onchange="gettitle()">
+            <option value="0">Please select</option>
+            <option value="admin">Admin</option>
+            <option value="customer">Customer</option>
+        </select>
+
+        <label>User Name</label>
+        <input name="na" class="form-control" />
+
+        <input type="submit" value="Find" class="btn-login" />
+    </form>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="results">
+        <h3>Result:</h3>
+        @foreach (var user in Model)
+        {
+            <div class="card">
+                <p><strong>Username:</strong> @user.name</p>
+                <p><strong>Password:</strong> @user.pass</p>
+                <p><strong>Role:</strong> @user.role</p>
+            </div>
+        }
+    </div>
+}
