@@ -71,44 +71,51 @@ namespace final_project.Controllers
         // GET: items/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // 1. التحقق من وجود المعرف
             if (id == null)
             {
                 return NotFound();
             }
 
-            var items = await _context.items.FindAsync(id);
-            if (items == null)
+            
+            var itemToEdit = await _context.items
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            // 3. التحقق من وجود العنصر
+            if (itemToEdit == null)
             {
                 return NotFound();
             }
-            return View(items);
+
+            // 4. إرجاع نموذج الـ View
+            return View(itemToEdit);
         }
 
-        // POST: items/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //
+        // POST: /Items/Edit/5  -- لمعالجة حفظ التعديلات
+        //
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,name,description,price,discount,category,quantity,imgfile")] items items)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,name,quantity,price,Id")] items item)
         {
-
-
-
-            if (id != items.Id)
+            // 1. التحقق من تطابق المعرف
+            if (id != item.Id)
             {
                 return NotFound();
             }
 
+            // 2. التحقق من صحة النموذج (Model State)
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(items);
+                    // 3. تحديث بيانات العنصر في قاعدة البيانات
+                    _context.Update(item);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!itemsExists(items.Id))
+                    if (!ItemExists(item.Id))
                     {
                         return NotFound();
                     }
@@ -117,10 +124,45 @@ namespace final_project.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+
+                return RedirectToAction("OrderItems", new { id = item.Id });
+
+
             }
-            return View(items);
+
+
+            return View(item);
         }
+        public async Task<IActionResult> OrderItems(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            var itemsList = await _context.orders
+                .Where(i => i.Id == id)
+                .ToListAsync();
+
+            if (itemsList == null || itemsList.Count == 0)
+            {
+                return NotFound();
+            }
+
+
+
+            return View(itemsList);
+        }
+        private bool ItemExists(int id)
+        {
+            return _context.items.Any(e => e.Id == id);
+        }
+
+    
+       
+       
 
         // GET: items/Delete/5
         public async Task<IActionResult> Delete(int? id)

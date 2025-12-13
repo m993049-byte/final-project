@@ -142,6 +142,8 @@ namespace final_project.Controllers
             var orItems = await _context.orders.FromSqlRaw("select * from orders  where  Id = '" + custname + "'  ").ToListAsync();
             return View(orItems);
         }
+
+       
         // GET: orders
         public async Task<IActionResult> Index()
         {
@@ -204,7 +206,7 @@ namespace final_project.Controllers
                 return NotFound();
             }
 
-            var orders = await _context.items.FindAsync(id);
+            var orders = await _context.orders.FindAsync(id);
             if (orders == null)
             {
                 return NotFound();

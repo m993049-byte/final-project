@@ -1,0 +1,54 @@
+﻿@model List<final_project.Models.orders>
+
+@{
+    ViewData["Title"] = "Order Items Details";
+}
+
+<h1>Details for Order # @ViewBag.ordid</h1>
+<h3>Items in this Order</h3>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().custname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().total)
+            </th>
+
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.custname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.total)
+                    </td>
+
+                    <td>
+                        <a asp-controller="Items" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div>
+    <a href="@ViewBag.ReturnUrl">Back to Customer Orders</a>
+</div>
