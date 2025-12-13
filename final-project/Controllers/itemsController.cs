@@ -206,27 +206,28 @@ namespace final_project.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
-            // نجيب عدد السيارات لكل كاتيجوري بشكل تلقائي
             var cats = await _context.items
                 .GroupBy(i => i.category)
                 .Select(g => new CategoryStat
                 {
                     Category = g.Key,
-                    Count = g.Count()
+                    Count = g.Count(),
+                    ImageUrl = g
+                        .Where(x => x.imgfile != null && x.imgfile != "")
+                        .Select(x => x.imgfile)
+                        .FirstOrDefault()
                 })
                 .OrderBy(c => c.Category)
                 .ToListAsync();
 
-            // مجموع عدد الآيتمز
             ViewData["totalItems"] = await _context.items.CountAsync();
 
-            // مجموع الكمية المباعة من orderline (لو فاضي يرجع 0)
             ViewData["soldQty"] = await _context.orderline
-                                                .SumAsync(o => (int?)o.itemquant) ?? 0;
+                .SumAsync(o => (int?)o.itemquant) ?? 0;
 
-            // نرسل قائمة الكاتيجوري للـ View
             return View(cats);
         }
+
         public async Task<IActionResult> list()
         {
 

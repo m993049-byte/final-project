@@ -57,7 +57,12 @@
                             Category @cat.Category
                         </div>
                         <div class="card-body text-center">
-                            <img src="~/images/cata@cat.Category.jpg" width="80" />
+                            <img src="@cat.ImageUrl"
+                                 width="80"
+                                 height="80"
+                                 style="object-fit:cover; border-radius:8px;"
+                                 alt="Category Image"
+                                 onerror="this.src='/images/noimage.png';" />
                         </div>
                         <div class="card-footer text-center">
                             Number of Cars:
