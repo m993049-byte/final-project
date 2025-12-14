@@ -1,6 +1,125 @@
-﻿@{
+﻿@model IEnumerable<final_project.Models.items>
+
+@{
     var username = Context.Session.GetString("Name");
-    
 }
 
-<h2>Welcome  @username!</h2>
+<style>
+    body {
+        background-color: #000;
+        color: #fff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .welcome-section {
+        text-align: center;
+        margin: 40px 0;
+    }
+
+        .welcome-section h1 {
+            color: #00b0ff;
+            font-size: 48px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .welcome-section p {
+            font-size: 20px;
+            color: #cfd8dc;
+            margin-top: 10px;
+        }
+
+    .card {
+        background-color: #111;
+        border: 1px solid #00b0ff;
+        border-radius: 12px;
+        transition: 0.3s;
+        height: 100%;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px #00b0ff;
+        }
+
+    .card-header {
+        background-color: transparent;
+        border-bottom: 1px solid #00b0ff;
+        color: #00b0ff;
+        font-weight: bold;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .card-body {
+        text-align: center;
+    }
+
+        .card-body img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+    .card-footer {
+        background-color: transparent;
+        border-top: 1px solid #00b0ff;
+        text-align: center;
+    }
+
+    .btn-buy {
+        background-color: #00b0ff;
+        color: #000;
+        padding: 8px 25px;
+        border-radius: 20px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+        .btn-buy:hover {
+            background-color: #00e5ff;
+            color: #000;
+            text-decoration: none;
+        }
+</style>
+
+<!-- Welcome Section -->
+<div class="welcome-section">
+    <h1>Welcome to the F1 Shop</h1>
+    <p>Welcome, <strong>@username</strong> 👋</p>
+</div>
+
+<!-- Items Section -->
+<div class="container">
+    <div class="row justify-content-center">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model.Take(3))
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            @item.name
+                        </div>
+                        <div class="card-body">
+                            <img src="@item.imgfile" height="150" alt="Image" />
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn-buy"
+                               asp-controller="Orders"
+                               asp-action="ItemBuyDetail"
+                               asp-route-id="@item.Id">
+                                Buy
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-center">No items found.</p>
+        }
+    </div>
+</div>

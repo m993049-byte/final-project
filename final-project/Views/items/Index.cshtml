@@ -1,70 +1,199 @@
 ﻿@model IEnumerable<final_project.Models.items>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Items";
     var role = Context.Session.GetString("Role");
     Layout = (role == "admin") ? "_Layoutadmin" : "_Layout";
 
-
+    var pageClass = (role == "admin") ? "admin-page" : "user-page";
 }
+
+<style>
+    /* USER PAGE */
+    .user-page {
+        background-color: #000;
+        color: #fff;
+        min-height: 100vh;
+        padding-bottom: 40px;
+    }
+
+    /* ADMIN PAGE */
+    .admin-page {
+        background-color:black;
+        color: #000;
+        min-height: 100vh;
+        padding-bottom: 40px;
+    }
+
+    /* حل مشكلة بياض خلفية body في أدمن */
+    body.admin-bg {
+        background-color:black;
+    }
+    body{
+        background-color: black;
+    }
+
+    .page-title {
+        text-align: center;
+        margin: 40px 0;
+    }
+
+        .page-title h1 {
+            color: #00b0ff;
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+    .admin-actions {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .btn-new {
+        background-color: #00b0ff;
+        color: #000;
+        padding: 10px 30px;
+        border-radius: 25px;
+        font-weight: bold;
+        border: none;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        .btn-new:hover {
+            background-color: #00e5ff;
+        }
+
+    /* صندوق الجدول أسود للجميع */
+    .table-container {
+        max-width: 1100px;
+        margin: auto;
+        background-color: #000;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px #00b0ff44;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #fff;
+    }
+
+    thead {
+        background-color: #00b0ff;
+        color: #000;
+    }
+
+        thead th {
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+    tbody td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #222;
+        vertical-align: middle;
+    }
+
+    tbody tr:hover {
+        background-color: #1a1f29;
+    }
+
+    .item-img {
+        height: 120px;
+        border-radius: 8px;
+    }
+
+    .action-links a {
+        color: #00b0ff;
+        font-weight: bold;
+        text-decoration: none;
+        margin: 0 6px;
+        transition: 0.3s;
+    }
+
+        .action-links a:hover {
+            color: #00e5ff;
+            text-decoration: underline;
+        }
+</style>
+
+<div class="@pageClass">
+
+    <!-- عنوان الصفحة -->
+    <div class="page-title">
+        <h1>Items Catalogue</h1>
+    </div>
+
+    <!-- زر إضافة عنصر جديد للأدمن فقط -->
+    @if (role == "admin")
+    {
+        <div class="admin-actions">
+            <button type="button"
+                    class="btn-new"
+                    data-toggle="modal"
+                    data-target="#insertModal">
+                + New Item
+            </button>
+
+            @await Html.PartialAsync("insertitems", new items())
+        </div>
+    }
+
+    <!-- صندوق الجدول -->
+    <div class="table-container">
+        @if (Model != null && Model.Any())
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.name)</th>
+                        <th>@Html.DisplayNameFor(model => model.price)</th>
+                        <th>@Html.DisplayNameFor(model => model.imgfile)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.price)</td>
+                            <td>
+                                <img src="@item.imgfile" class="item-img" alt="Image" />
+                            </td>
+                            <td class="action-links">
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                                @if (role == "admin")
+                                {
+                                    <span>|</span>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    <span>|</span>
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-center text-white">No items available.</p>
+        }
+    </div>
+
+</div>
+
 @if (role == "admin")
 {
-<p>
-    <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#insertModal"> New Item</button>
-    @await Html.PartialAsync("insertitems", new items())
-</p>
+    <script>
+        // إضافة كلاس للـ body لحل مشكلة بياض الخلفية في الأدمن
+        document.body.classList.add("admin-bg");
+    </script>
 }
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.name)
-            </th>
-          
-            <th>
-                @Html.DisplayNameFor(model => model.price)
-            </th>
-           
-         
-            <th>
-                @Html.DisplayNameFor(model => model.imgfile)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-          
-            <td>
-                @Html.DisplayFor(modelItem => item.price)
-            </td>
-          
-          
-                <td>
-                    <img src="@item.imgfile" height="150" alt="Image" />
-                </td>
-
-
-
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-
-                    @if (role == "admin")
-                    {
-                        <span> | </span>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <span> | </span>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    }
-                </td>
-
-        </tr>
-}
-    </tbody>
-</table>
-

@@ -3,4 +3,32 @@
     var username = Context.Session.GetString("Name");
 }
 
-<h2>Welcome  admin @username!</h2>
+<style>
+    .welcome-container {
+        background-color: #1a1f29; /* Dark box background */
+        padding: 20px 30px;
+        border-radius: 10px;
+        margin: 30px auto;
+        max-width: 600px;
+        text-align: center;
+        box-shadow: 0 0 15px #00b0ff44; /* Soft blue glow */
+    }
+
+        .welcome-container h2 {
+            color: #00b0ff; /* Light blue */
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+    body {
+        background-color: #0d1117; /* Dark page background */
+        color: #cfd8dc; /* Light text */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+</style>
+
+<div class="welcome-container">
+    <h2>Welcome Admin @username!</h2>
+</div>

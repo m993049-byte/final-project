@@ -5,60 +5,100 @@
     ViewData["Title"] = "list";
 }
 
-<h1>Index</h1>
+<style>
+    h1 {
+        text-align: center;
+        color: #00b0ff;
+        margin: 30px 0;
+        font-weight: bold;
+        letter-spacing: 2px;
+        font-size: 36px;
+    }
 
+    .table-container {
+        max-width: 1100px;
+        margin: auto;
+        background-color: #121921; /* خلفية داكنة للقائمة */
+        padding: 20px 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px #00b0ff44;
+    }
+    body{
+    background-color:black;
+    
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(model => model.Id)
-            </td>
-            <th>
-                @Html.DisplayNameFor(model => model.name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.price)
-            </th>
-          
-            <th>
-                @Html.DisplayNameFor(model => model.category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.quantity)
-            </th>
-           
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-                <td>
-              @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.price)
-            </td>
-          
-            <td>
-                @Html.DisplayFor(modelItem => item.category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.quantity)
-            </td>
-           
-           
-        </tr>
-}
-    </tbody>
-</table>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #e0e7f1; /* لون نص أبيض مزرق فاتح */
+        font-size: 16px;
+    }
+
+    thead {
+        background-color: #00b0ff;
+        color: #000;
+        font-weight: bold;
+        letter-spacing: 1.2px;
+    }
+
+        thead th, thead td {
+            padding: 12px;
+            text-align: center;
+        }
+
+    tbody tr {
+        border-bottom: 1px solid #28313b;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        tbody tr:hover {
+            background-color: #1f2a38;
+            color: #00b0ff; /* لون النص عند المرور */
+        }
+
+    tbody td {
+        padding: 12px;
+        text-align: center;
+        vertical-align: middle;
+        color: #e0e7f1; /* نفس لون النص داخل الخلايا */
+    }
+
+        /* عناوين الأعمدة الأيمن عشان Id مثلا يكون باللون مختلف */
+        tbody td:first-child {
+            font-weight: bold;
+            color: #00e5ff;
+        }
+</style>
+
+<div class="table-container">
+    <h1>Items List</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Id)</td>
+                <th>@Html.DisplayNameFor(model => model.name)</th>
+                <th>@Html.DisplayNameFor(model => model.description)</th>
+                <th>@Html.DisplayNameFor(model => model.price)</th>
+                <th>@Html.DisplayNameFor(model => model.category)</th>
+                <th>@Html.DisplayNameFor(model => model.quantity)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.description)</td>
+                    <td>@Html.DisplayFor(modelItem => item.price)</td>
+                    <td>@Html.DisplayFor(modelItem => item.category)</td>
+                    <td>@Html.DisplayFor(modelItem => item.quantity)</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

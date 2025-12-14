@@ -133,7 +133,7 @@ namespace final_project.Controllers
             return View();
         }
         //customer page 
-        public IActionResult customer()
+        public async Task<IActionResult> customer()
         {
             var role = HttpContext.Session.GetString("Role");
 
@@ -142,7 +142,7 @@ namespace final_project.Controllers
 
                 return RedirectToAction("login", "usersaccounts");
             }
-            return View();
+            return View(await _context.items.ToListAsync());
         }
 
         //create post
