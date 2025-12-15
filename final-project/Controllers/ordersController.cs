@@ -31,6 +31,8 @@ namespace final_project.Controllers
             var item = await _context.items.FindAsync(id);
             return View(item);
         }
+
+
         [HttpPost]
         public async Task<IActionResult> cartadd(int itemId, int quantity)
         {
@@ -57,6 +59,8 @@ namespace final_project.Controllers
                 price = item.price,
                 quant = quantity
             });
+
+            
 
             HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(Bitm));
             return RedirectToAction("CartBuy");
