@@ -69,71 +69,42 @@ namespace final_project.Controllers
         }
 
         // GET: items/Edit/5
+        // GET: Items/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            // 1. التحقق من وجود المعرف
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (HttpContext.Session.GetString("Role")?.ToLower() != "admin")
+                return RedirectToAction("login", "usersaccounts");
 
-            
-            var itemToEdit = await _context.items
-                .FirstOrDefaultAsync(m => m.Id == id);
+            if (id == null) return NotFound();
 
-            // 3. التحقق من وجود العنصر
-            if (itemToEdit == null)
-            {
-                return NotFound();
-            }
-
-            // 4. إرجاع نموذج الـ View
-            return View(itemToEdit);
-        }
-
-        //
-        // POST: /Items/Edit/5  -- لمعالجة حفظ التعديلات
-        //
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,name,quantity,price,Id")] items item)
-        {
-            // 1. التحقق من تطابق المعرف
-            if (id != item.Id)
-            {
-                return NotFound();
-            }
-
-            // 2. التحقق من صحة النموذج (Model State)
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    // 3. تحديث بيانات العنصر في قاعدة البيانات
-                    _context.Update(item);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ItemExists(item.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-
-                return RedirectToAction("OrderItems", new { id = item.Id });
-
-
-            }
-
+            var item = await _context.items.FindAsync(id);
+            if (item == null) return NotFound();
 
             return View(item);
         }
+
+
+        // POST: Items/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,name,description,price,discount,category,quantity,imgfile")] items formItem)
+        {
+            if (HttpContext.Session.GetString("Role")?.ToLower() != "admin")
+                return RedirectToAction("login", "usersaccounts");
+
+            if (id != formItem.Id) return NotFound();
+
+            // (اختياري) لو عندك Required قوي ويسبب لك مشاكل، خلّك على هذا:
+            if (!ModelState.IsValid)
+                return View(formItem);
+
+            // ✅ تحديث كامل
+            _context.Update(formItem);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         public async Task<IActionResult> OrderItems(int? id)
         {
             if (id == null)
