@@ -309,7 +309,10 @@ namespace final_project.Controllers
 
                 smtpClient.Send(mailMessage);
 
-                return Content("DONE!");
+              
+
+                TempData["EmailStatus"] = "DONE!";  
+                return RedirectToAction("Email");
             }
             catch (Exception ex)
             {
