@@ -381,6 +381,11 @@ namespace final_project.Controllers
             return RedirectToAction("login", "usersaccounts");
         }
 
+        public IActionResult SearchAPI()
+        {
+            return View();
+        }
+
     }
 
 }
