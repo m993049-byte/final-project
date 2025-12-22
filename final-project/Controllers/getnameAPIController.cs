@@ -27,12 +27,12 @@ namespace final_project.Controllers
 
             var names = await _context.usersaccounts
                 .Where(u => u.role.ToLower() == role)
-                .Select(u => u.name)          // أو username حسب جدولك
+                .Select(u => u.name)         
                 .Distinct()
                 .OrderBy(x => x)
                 .ToListAsync();
 
-            return Ok(names); // يرجع ["Ali","Fahad",...]
+            return Ok(names);
         }
 
 

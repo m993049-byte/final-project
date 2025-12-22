@@ -36,6 +36,11 @@ namespace final_project.Controllers
             {
                 return NotFound();
             }
+            var role = HttpContext.Session.GetString("Role");
+            if (role != "admin")
+            {
+                return RedirectToAction("login", "usersaccounts");
+            }
 
             var usersaccounts = await _context.usersaccounts
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -194,6 +199,12 @@ namespace final_project.Controllers
                 return NotFound();
             }
 
+            var role = HttpContext.Session.GetString("Role");
+            if (role != "admin")
+            {
+                return RedirectToAction("login", "usersaccounts");
+            }
+
             var usersaccounts = await _context.usersaccounts.FindAsync(id);
             if (usersaccounts == null)
             {
@@ -243,6 +254,12 @@ namespace final_project.Controllers
             if (id == null)
             {
                 return NotFound();
+            }
+
+            var role = HttpContext.Session.GetString("Role");
+            if (role != "admin")
+            {
+                return RedirectToAction("login", "usersaccounts");
             }
 
             var usersaccounts = await _context.usersaccounts

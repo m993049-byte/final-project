@@ -117,9 +117,8 @@
 
         if (!role) return;
 
-        // ✅ هذا يطابق كنترولرك الحالي: [HttpGet] ويستقبل role كـ QueryString
         const res = await fetch(`/api/getnameAPI?role=${encodeURIComponent(role)}`);
-        const names = await res.json(); // ["Ali","Fahad",...]
+        const names = await res.json(); 
 
         names.forEach(n => {
             const opt = document.createElement("option");
